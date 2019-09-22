@@ -19,16 +19,12 @@ infty = 999999
 
     Contains attributes:
         * label: the number tagged for each node in the graph, these will be integers.
-    
         * color: color of node in the graph when search is done, these are treated as single characters, it is white by default. Possible values:
             - 'w': white--node not discovered yet.
             - 'g': grey--node discovered, but may still be connected to undiscovered (w) vertices.
             - 'b': black--nothing left to discover, we are done with the current node.
-        
         * d: discovery time for the node. Will be assigned when node is made grey, assigned sentinel value of infinity. Will be an integer.
-        
         * f: finish time. Will be assigned when node is assigned color black, null by default.
-        
         * pred: predecessor in the optimal path when performing a graph searchs.
 
     - Usage
@@ -100,19 +96,19 @@ class edge():
 '''
 #================================================
 class graph():
+    '''
+    Read from edges.txt to get:
+        - node objects
+        - dict of node objects
+        - dict of edge lists
+    '''
     def __init__(self, use_heuristics=False):
         self.nodes = {}
         self.edges = {}
         self.n = 0
         
-        '''
-        Read from edges.txt to get:
-            - node objects
-            - dict of node objects
-            - dict of edge lists
-        '''
-        #file_name = 'edges.txt'
         file_name = 'test_graph.txt'
+        #file_name = 'edges.txt' TODO: for final demo
         with open(file_name) as f:
             for line in f:
                 edge_line = line.split()
@@ -120,8 +116,10 @@ class graph():
                 # Insert nodes (at column 1 and 2)
                 if edge_line[0] not in self.nodes:
                     self.nodes[edge_line[0]] = node(label=edge_line[0])
+                    self.n += 1
                 elif edge_line[1] not in self.nodes:
                     self.nodes[edge_line[1]] = node(label=edge_line[1])
+                    self.n += 1
                 
                 # Insert undirected edge (u, v) and (v, u)
                 # (u, v)
@@ -134,18 +132,25 @@ class graph():
                     self.edges[edge_line[1]] = [edge(u=edge_line[1], v=edge_line[0], dist=edge_line[2])]
                 else:
                     self.edges[edge_line[1]].append(edge(u=edge_line[1], v=edge_line[0], dist=edge_line[2]))
-        
-        '''
-        for i in self.edges:
-            for j in self.edges[i]:
-                print(j.print())
-        '''
+    
     # Return reference to node with ID node_id
     def get_node(self, node_id):
         label = '{}'.format(node_id)
         return self.nodes[label]
     
+    # Return distance/cost of undirected edge (u, v) (u and v strings)
+    def get_dist(self, u, v):
+        for i in self.edges[u]:
+            if i.v == v:
+                return float(i.dist)
+    
     # Print current status of nodes
     def list_nodes(self):
         for i in self.nodes:
             self.nodes[i].print()
+    
+    # Print edge info
+    def list_edges(self):
+        for i in self.edges:
+            for j in self.edges[i]:
+                print(j.print())
