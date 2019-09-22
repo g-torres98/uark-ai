@@ -1,56 +1,59 @@
 #************************************************
 '''
     Breadth-first search.
-    
-    
+    Parameters:
+        * start: start node ID
+        * goal: goal node ID 
+    We want to find a path such that optimal path p={start, ..., goal}.
 '''
 #************************************************
 
-import graph as g
+import graph
 import queue
 
-#------------------------------------------------
-'''
-    Breadth-first search.
-    Parameters:
-        G: graph with vertices and adjacency list.
-        s: starting vertex (vertex object).
-'''
-#------------------------------------------------
-def bfs(G, start):
+#def bfs(G, start):
+def bfs(start, goal):
+    G = graph.graph()
     # Get vertex from G.V at label "start"
-    s = G.nodes[start]
+    #s = G.nodes[start]
     
     # Vertex values already assigned, no need to initialize each vertex
     
+    G.list_nodes()
+    s = G.get_node(start)
+    print('current color of s: ', s.color)
     s.color = 'g'
-    s.d = 0
+    print('new color of s: ', s.color)# USING REF/POINTER TO CHANGE ATTRIBUTES WORKS!!!
+    #s.color = 'g'
+    #s.d = 0
     # s.pred is already NIL (look in vertex class constructor)
+    G.list_nodes()
     
+    #TODO: make sure n is appriately part of G
     # Create empty queue
-    Q = queue.Queue(G.n)
+    #Q = queue.Queue(G.n)
     
     # Keep exploring each vertex's adjacency list to look for gray vertices.
-    Q.enqueue(s)
+    #Q.enqueue(s)
     
     # Keep dequeuing vertices and see, in the adj array, which other vertices they are connected to, we refer to each vertice's attributes in the V list.
-    while not Q.is_empty():
+    '''
+    #while not Q.is_empty():
         u = Q.dequeue()
-        
-        # Loop through vertices connected to u to make edges (u, v); we get the v values from the edges list G.adj, and then look at G.V.
+        ## Loop through vertices connected to u to make edges (u, v); we get the v values from the edges list G.adj, and then look at G.V.
         for i in G.adj[u.label]:
             # Get vertex
             v = G.nodes[i.v]
             v.print()
-            
             # Check color
             if v.color == 'w':
                 v.color = 'g'
                 v.d = u.d + 1
                 v.pred = u
                 Q.enqueue(v)
-            
         u.color = 'b'
+    '''
+test_best_route = bfs(1, 7)
 
 
 

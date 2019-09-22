@@ -4,7 +4,8 @@
     Contains:
         * node class
         * edge class
-        * adjancecy list class
+        * graph class
+    Graph is undirected as streets (edges between intersections) are two-way.
 '''
 #************************************************
 
@@ -14,7 +15,7 @@ infty = 999999
 #================================================
 '''
     Node Class
-    - represent some node u
+    - represent some node u (some intersection on a map)
 
     Contains attributes:
         * label: the number tagged for each node in the graph, these will be integers.
@@ -58,12 +59,12 @@ class node():
 
 #================================================
 '''
-    Edge Class
-    - represent weighted edge (u, v)
+    Edge Class 
+    - represent weighted edge (u, v) (some two-way street on a map)
 
     Contains attributes:
-        * u: starting node for edge (u, v), integer.
-        * v: end node for edge (u, v), integer.
+        * u: starting node for edge (u, v), integer. Here, id1 = u.
+        * v: end node for edge (u, v), integer. Here, id2 = v.
         * dist: weight/cost/distance of edge, 1 by default, integer.
 
     * In the graph class, the list adj will be created and will house these objects in it.
@@ -77,7 +78,7 @@ class edge():
     
     # Print edge info
     def print(self):
-        return "(id1: {}, id2: {}, {} km)".format(self.v, self.u, self.dist)
+        return "(id1: {}, id2: {}, {} km)".format(self.u, self.v, self.dist)
 
 
 
@@ -95,9 +96,7 @@ class edge():
             - value: dictionary where
                 > key: end node v ID
                 > value: distance of edge (u, v)
-        * n: count of unique nodes
-        
-        Note: for this assignment, the graph is assumed to be directed.
+        * n: count of unique nodes        
 '''
 #================================================
 class graph():
@@ -110,92 +109,43 @@ class graph():
         Read from edges.txt to get:
             - node objects
             - dict of node objects
-            - dict of edges
+            - dict of edge lists
         '''
-        with open('edges.txt') as f:
+        #file_name = 'edges.txt'
+        file_name = 'test_graph.txt'
+        with open(file_name) as f:
             for line in f:
                 edge_line = line.split()
                 
-                # Insert nodes
+                # Insert nodes (at column 1 and 2)
                 if edge_line[0] not in self.nodes:
                     self.nodes[edge_line[0]] = node(label=edge_line[0])
+                elif edge_line[1] not in self.nodes:
+                    self.nodes[edge_line[1]] = node(label=edge_line[1])
                 
-                # Insert some edge starting at node with current ID
+                # Insert undirected edge (u, v) and (v, u)
+                # (u, v)
                 if edge_line[0] not in self.edges:
                     self.edges[edge_line[0]] = [edge(u=edge_line[0], v=edge_line[1], dist=edge_line[2])]
                 else:
                     self.edges[edge_line[0]].append(edge(u=edge_line[0], v=edge_line[1], dist=edge_line[2]))
-            
+                # (v, u)
+                if edge_line[1] not in self.edges:
+                    self.edges[edge_line[1]] = [edge(u=edge_line[1], v=edge_line[0], dist=edge_line[2])]
+                else:
+                    self.edges[edge_line[1]].append(edge(u=edge_line[1], v=edge_line[0], dist=edge_line[2]))
         
-        # Insert edges one node ID at a time as a dict for every unique ID
         '''
-        for node_id in self.nodes:
-            try:
-                self.edges[node_id]
-            except KeyError:
-                self.edges.update({edge[1]: edge[2]})
-                print(self.edges)
-        '''
-        #example manual creation of dict tg = {12: 10}
         for i in self.edges:
-            print(i)
             for j in self.edges[i]:
-                print('\t', i, ' ', j.print())
-        
-        
-        #text = open('edges.txt', 'r')
-        #text_str = text.read()
-        #print(text_str)
-        
-        
-        
-        
-        
-        
-        
-        self.n = 0
-        
-        # Crate set of vertices V
-        self.nodes = []
-        for i in range(self.n):
-            self.nodes.append(node(label=i))
-
-        # Create list of edges adj for each node
-        self.adj = []
-        for i in range(self.n):
-            self.adj.append([])
-
-    # Print the adjancency list with the option to show weights.
-    def print(self):
-        print("Printing adjacency list.")
-        for i in range(self.n):
-            edges = self.adj[i]
-            paths = str(i)
-            for j in range(len(edges)):
-                paths += "->{}".format(edges[j].print())
-            print(paths)
-        print()
-
-    # Insert edge (u, v) with weight (if directed) into adj.
-    def insert(self, u, v, w=1):
-        self.adj[u].append(edge(u, v, w))
-
-    # Remove edge (u, v) from graph.
-    # Look at label/ID of u, look at all vertices that make edges (u, v).
-    def remove(self, u, v):
-        edges = self.adj[u]
-        for i in range(len(edges)):
-            if self.adj[u][i].v == v:
-                print('Found at index {}! {}'.format(i, self.adj[u][i].get(False)))
-                del self.adj[u][i]
-                break
-
-
-
-
-
-
-
-
-g = graph()
-
+                print(j.print())
+        '''
+    # Return reference to node with ID node_id
+    def get_node(self, node_id):
+        label = '{}'.format(node_id)
+        return self.nodes[label]
+    
+    # Print current status of nodes
+    def list_nodes(self):
+        for i in self.nodes:
+            self.nodes[i].print()
