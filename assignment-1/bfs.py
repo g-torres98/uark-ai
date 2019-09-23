@@ -11,7 +11,7 @@
 import graph
 import queue
 
-def bfs(start, goal):
+def search(start, goal):
     # Take in edges information when making graph for BFS procedure
     G = graph.graph()
     
@@ -28,7 +28,7 @@ def bfs(start, goal):
     while not Q.is_empty():
         u = Q.dequeue()
         
-        # Loop through vertices connected to u to make edges (u, v)
+        # Loop through nodes connected to u to make edges (u, v)
         for i in G.edges[u.label]:
             # Get nodes v(i) u connects to
             v = G.nodes[i.v]
@@ -70,4 +70,4 @@ def bfs(start, goal):
     return None
 
 # Test call, uncomment code below: $ python bfs.py
-#print(bfs('1', '7'))
+#print(search('1', '7'))
