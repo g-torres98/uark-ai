@@ -52,7 +52,7 @@ def search(start, goal):
             if v.label == goal:
                 tot_visited = 0
                 for i in G.nodes:
-                    if G.nodes[i].color == 'g' or G.nodes[i].color == 'b':
+                    if G.nodes[i].color == 'b':
                         tot_visited += 1
                 in_path = 0
                 distance = 0

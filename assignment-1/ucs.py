@@ -18,8 +18,8 @@ def search(start, goal):
     
     # Initialize min-priority queue with starting node ID
     s = G.get_node(start)
-    s.color = 'g'
-    s.d = 0
+    #s.color = 'g'
+    #s.d = 0
     
     p = path.path() # add starting node to path
     p.add_node(s)
@@ -31,21 +31,38 @@ def search(start, goal):
     # Access min-heap: >>> Q.heap &&^$%#^$#$%$%*&^)^&(^%^$
     while not Q.is_empty():
         # Pick (and remove) the path P with lowest cost from Q
-        u = Q.pop()
+        P = Q.pop()
         
-        print('label: ', u.head().label)
-        #print('path: ', u.path)
+        print('popped P: ', P.path, ' cost=', P.cost, ' label of current head: ', P.head().label)
+        #print('path: ', P.path)
+        
         # Reached goal
-        if u.head().label == goal:
-            return u.path
+        if P.head().label == goal:
+            print('UCS reached goal!')
+            return P.path
         
-        #for v in 
-        #print(u.path)
-        #print(u.head())
-        
-        #print('shortest dist: ', u)
-        return 0
+        # Explore neighbors, add them to new and distinct lists
+        for edge in G.edges[P.head().label]:
+            if P.head().color == 'w':
+                #TODO: consider unvisited nodes only (mark either w or b--visited)
+                
+                #print(edge.v, ' ', edge.dist)
+                print('current edge from head: ', edge.v, ' cost=', edge.dist)
+                
+                # Get node ref at end of edge
+                new_path = path.path(P.copy(G.get_node(edge.v)))
+                new_path.cost += float(edge.dist)
+                
+                print('new path: ', new_path.path, ' with head=', new_path.head().label, ' and path cost=', new_path.cost)
+                print()
+                
+                # Append valid path to list
+                Q.append(new_path)
+            else:
+                print('node {} already visited'.format(P.head().label))
+        # Mark current node as visited--color black
+        P.head().color = 'b'
+        print('--------------')
     
-    
-    # put node IDs into prioerity queue (in a list)
-    return 0
+    # Return failure
+    return None
