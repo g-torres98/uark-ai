@@ -16,6 +16,10 @@ class path():
     def add_node(self, u):
         self.path.append(u)
         
+    # Return head of path (most recently-added node)
+    def head(self):
+        return self.path[len(self.path)-1]
+        
     # Return a new list q from input list p
     def copy(p):
         q = []

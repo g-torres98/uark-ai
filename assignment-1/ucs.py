@@ -21,17 +21,27 @@ def search(start, goal):
     s.color = 'g'
     s.d = 0
     
-    p = path.path()
+    p = path.path() # add starting node to path
     p.add_node(s)
     
     Q = pq.priority_queue()
-    Q.append(p)
+    Q.append(p) # add path to priority queue
     Q.print()
     
-    # Access min-heap: >>> Q.heap &&^$%#^$#$%$%*&^)^&(^%^$%$%#@!@$#%
+    # Access min-heap: >>> Q.heap &&^$%#^$#$%$%*&^)^&(^%^$
     while not Q.is_empty():
+        # Pick (and remove) the path P with lowest cost from Q
         u = Q.pop()
-        print('u: ', u)
+        
+        print('label: ', u.head().label)
+        #print('path: ', u.path)
+        # Reached goal
+        if u.head().label == goal:
+            return u.path
+        
+        #for v in 
+        #print(u.path)
+        #print(u.head())
         
         #print('shortest dist: ', u)
         return 0
