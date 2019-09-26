@@ -16,9 +16,9 @@ import bfs
 import ucs
 import astar
 
-print(bfs.search('1', '7'))
+#print(bfs.bfs_search('1', '7'))
 print()
-print(ucs.search('1', '7'))
+#print(ucs.ucs_search('1', '7'))
 print()
-print(astar.search('1', '7'))
+#print(astar.astar_search('1', '7'))
 print()

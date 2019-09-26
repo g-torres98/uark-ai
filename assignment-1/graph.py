@@ -32,19 +32,19 @@ infty = 999999
 '''
 #================================================
 class node():
-    def __init__(self, label, color='w', f=None, v=None, pred=None):
+    def __init__(self, label, color='w', f=None, v=None, pred=None, h=0):
         self.label=label
         self.color = color
         self.d = infty
         self.f = f
         self.pred = pred
+        self.h=h
     
     # Print all the info of this node in one line.
     def print(self):
         print("ID: ", self.label)
         print("Color: ", self.color)
-        print("Discovery Time: ", self.d)
-        print("Finish Time: ", self.f)
+        print("Heuristic: ", self.h)
         if self.pred != None:
             print("Predecessor: ", self.pred.label)
         else:
@@ -132,6 +132,13 @@ class graph():
                     self.edges[edge_line[1]] = [edge(u=edge_line[1], v=edge_line[0], dist=edge_line[2])]
                 else:
                     self.edges[edge_line[1]].append(edge(u=edge_line[1], v=edge_line[0], dist=edge_line[2]))
+        
+        # If using A* search, take in heuristics file
+        if use_heuristics:
+            with open('test_heuristic.txt') as f:
+                for line in f:
+                    info = line.split() # always list of two elements
+                    self.nodes[info[0]].h = info[1]
     
     # Return reference to node with ID node_id
     def get_node(self, node_id):

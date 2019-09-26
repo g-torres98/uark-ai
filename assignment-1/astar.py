@@ -1,9 +1,3 @@
-
-
-# TODO: adapt graph class to take in heuristics input file
-# TODO: adapt UCS
-
-
 #************************************************
 '''
     A* Search
@@ -19,8 +13,8 @@ import priority_queue as pq
 import path
 
 def search(start, goal):
-    # Take in edges information when making graph for A* procedure
-    G = graph.graph()
+    # Take in edges information when making graph for A* procedure, now take in heuristics
+    G = graph.graph(use_heuristics=True)
     
     # Add starting node to path
     s = G.get_node(start)
@@ -32,8 +26,12 @@ def search(start, goal):
     Q.append(p)
     
     while not Q.is_empty():
-        # Pop path P with lowest cost
+        # Pop path P with lowest cost, subtract
         P = Q.pop()
+        #P.print()
+        #print(P.cost)
+        #print('_______')
+        #P.cost = P.cost - float(P.head().h) # subtract heuristic from head (no longer relevant since we will add a new node to this path)
         
         '''
         Found goal node!
@@ -48,18 +46,31 @@ def search(start, goal):
             for i in G.nodes:
                 if G.nodes[i].color == 'b':
                     tot_visited += 1
+            
             in_path = len(P.path)
             distance = P.cost
             
-            return "A*\nNum nodes visited: {}\nNum nodes on path: {}\nDistance (km): {}".format(tot_visited, in_path, distance)
+            del G
+            del P
+            del Q
+            
+            print("A*\nNum nodes visited: {}\nNum nodes on path: {}\nDistance (km): {}".format(tot_visited, in_path, distance))
+            return
         
         # Explore neighbors, add them to new and distinct lists
         for edge in G.edges[P.head().label]:
             # Only consider unvisited nodes
             if G.get_node(edge.v).color == 'w':
                 # Get new path--expand on current list and increase total distance
-                new_path = path.path(init_path=P.copy(G.get_node(edge.v)), init_cost=P.cost)
+                # TODO: using_f flag not working
+                new_path = path.path(init_path=P.copy(G.get_node(edge.v)), init_cost=P.cost, init_f=float(P.cost)+float(G.get_node(edge.v).h), using_f=True)
+                
+                # Add cost so min-queue can account for prospective node heuristic
                 new_path.cost += float(edge.dist)
+                # + float(G.get_node(edge.v).h))
+                #print('considering node {}, h={}'.format(G.get_node(edge.v).label, G.get_node(edge.v).h))
+                #new_path.print()
+                #print()
                 
                 # Append valid path to list of possible paths
                 Q.append(new_path)
@@ -69,3 +80,5 @@ def search(start, goal):
     
     # Return failure
     return None
+
+search('1', '7')

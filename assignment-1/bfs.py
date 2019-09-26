@@ -65,9 +65,14 @@ def search(start, goal):
                         in_path += 1
                         distance += G.get_dist(j.label, j.pred.label)
                         j = j.pred
-                return "BFS\nNum nodes visited: {}\nNum nodes on path: {}\nDistance (km): {}".format(tot_visited, in_path, distance)
+                
+                # destroy object G
+                del G
+                del Q
+                
+                print("BFS\nNum nodes visited: {}\nNum nodes on path: {}\nDistance (km): {}".format(tot_visited, in_path, distance))
+                return
         u.color = 'b'
     return None
 
-# Test call, uncomment code below: $ python bfs.py
-#print(search('1', '7'))
+search('1', '7')

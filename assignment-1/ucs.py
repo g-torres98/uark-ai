@@ -45,7 +45,13 @@ def search(start, goal):
             in_path = len(P.path)
             distance = P.cost
             
-            return "UCS\nNum nodes visited: {}\nNum nodes on path: {}\nDistance (km): {}".format(tot_visited, in_path, distance)
+            # Destroy objects
+            del G
+            del P
+            del Q
+            
+            print("UCS\nNum nodes visited: {}\nNum nodes on path: {}\nDistance (km): {}".format(tot_visited, in_path, distance))
+            return
         
         # Explore neighbors, add them to new and distinct lists
         for edge in G.edges[P.head().label]:
@@ -63,3 +69,5 @@ def search(start, goal):
     
     # Return failure
     return None
+
+search('1', '7')
