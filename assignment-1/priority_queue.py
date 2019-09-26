@@ -33,7 +33,10 @@ class priority_queue:
     """Insert PATH at its correct position according to its cost."""
     # Store into heap the tuple (cost, object) and order by cost
     def append(self, path):
-        heapq.heappush(self.heap, (path.cost, path))
+        if path.using_f:
+            heapq.heappush(self.heap, (path.f, path))
+        else:
+            heapq.heappush(self.heap, (path.cost, path))
     '''
     def extend(self, items):
         """Insert each item in items at its correct position."""

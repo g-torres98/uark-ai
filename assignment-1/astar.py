@@ -18,7 +18,7 @@ def search(start, goal):
     
     # Add starting node to path
     s = G.get_node(start)
-    p = path.path()
+    p = path.path(using_f=True)
     p.add_node(s)
     
     # Add initial path to min-priority queue
@@ -62,11 +62,11 @@ def search(start, goal):
             # Only consider unvisited nodes
             if G.get_node(edge.v).color == 'w':
                 # Get new path--expand on current list and increase total distance
-                # TODO: using_f flag not working
                 new_path = path.path(init_path=P.copy(G.get_node(edge.v)), init_cost=P.cost, init_f=float(P.cost)+float(G.get_node(edge.v).h), using_f=True)
                 
                 # Add cost so min-queue can account for prospective node heuristic
                 new_path.cost += float(edge.dist)
+                
                 # + float(G.get_node(edge.v).h))
                 #print('considering node {}, h={}'.format(G.get_node(edge.v).label, G.get_node(edge.v).h))
                 #new_path.print()
@@ -81,4 +81,5 @@ def search(start, goal):
     # Return failure
     return None
 
-search('1', '7')
+search('105050228', '105012740')
+#search('1', '7')

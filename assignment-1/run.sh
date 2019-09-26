@@ -3,8 +3,10 @@
 set -e
 set -u
 
-#python main.py
 python bfs.py
+echo ""
 python ucs.py
+echo ""
 python astar.py
+echo ""
 echo "Done."

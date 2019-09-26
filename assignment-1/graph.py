@@ -6,6 +6,8 @@
         * edge class
         * graph class
     Graph is undirected as streets (edges between intersections) are two-way.
+    
+    Note: heuristics file needed to create nodes for graph!
 '''
 #************************************************
 
@@ -107,19 +109,35 @@ class graph():
         self.edges = {}
         self.n = 0
         
-        file_name = 'test_graph.txt'
-        #file_name = 'edges.txt' TODO: for final demo
+        # Create nodes out of every node found in the heuristics
+        #h_file = 'test_heuristic.txt'
+        h_file = 'heuristic.txt'
+        with open(h_file) as f:
+            for line in f:
+                node_line = line.split()
+                self.nodes[node_line[0]] = node(label=node_line[0], h=node_line[1])
+                #self.nodes[node_line[0]].h = node_line[1]
+                self.n += 1
+                #self.nodes[edge_line[0]] = node(label=edge_line[0])
+        
+        #file_name = 'test_graph.txt' # much smaller test data
+        file_name = 'edges.txt'
         with open(file_name) as f:
             for line in f:
                 edge_line = line.split()
                 
+                '''
                 # Insert nodes (at column 1 and 2)
                 if edge_line[0] not in self.nodes:
                     self.nodes[edge_line[0]] = node(label=edge_line[0])
+                    #print(self.nodes[edge_line[0]].label)
                     self.n += 1
-                elif edge_line[1] not in self.nodes:
+                #elif edge_line[1] not in self.nodes: # issue--elif excluded a good chunk of nodes from being inserted into graph
+                if edge_line[1] not in self.nodes:
                     self.nodes[edge_line[1]] = node(label=edge_line[1])
+                    #print(self.nodes[edge_line[1]].label)
                     self.n += 1
+                '''
                 
                 # Insert undirected edge (u, v) and (v, u)
                 # (u, v)
@@ -133,12 +151,18 @@ class graph():
                 else:
                     self.edges[edge_line[1]].append(edge(u=edge_line[1], v=edge_line[0], dist=edge_line[2]))
         
+        '''
         # If using A* search, take in heuristics file
         if use_heuristics:
-            with open('test_heuristic.txt') as f:
+            #h_file = 'test_heuristic.txt'
+            h_file = 'heuristic.txt'
+            
+            with open(h_file) as f:
                 for line in f:
                     info = line.split() # always list of two elements
-                    self.nodes[info[0]].h = info[1]
+                    if info[0] not in self.nodes:
+                        self.nodes[info[0]].h = info[1]
+        '''
     
     # Return reference to node with ID node_id
     def get_node(self, node_id):
