@@ -50,7 +50,9 @@ def search(start, goal):
                 print('current edge from head: ', edge.v, ' cost=', edge.dist)
                 
                 # Get node ref at end of edge
-                new_path = path.path(P.copy(G.get_node(edge.v)))
+                
+                # TODO: check that this matches the data type that the path class constructor should take in (it takes in a list)
+                new_path = path.path(init_path=P.copy(G.get_node(edge.v)))
                 new_path.cost += float(edge.dist)
                 
                 print('new path: ', new_path.path, ' with head=', new_path.head().label, ' and path cost=', new_path.cost)
