@@ -31,8 +31,6 @@ class priority_queue:
         return len(self.heap) == 0
 
     """Insert PATH at its correct position according to its cost."""
-    #TODO: I want to append the path list itself and maintain the min-priority queue according to p.cost. Perhaps a way to do this is to append the entire list object p to self.heap as an element and when we pop, pop the list object(?)
-    
     # Store into heap the tuple (cost, object) and order by cost
     def append(self, path):
         heapq.heappush(self.heap, (path.cost, path))
