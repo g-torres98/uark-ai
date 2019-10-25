@@ -28,10 +28,6 @@ def search(start, goal):
     while not Q.is_empty():
         # Pop path P with lowest cost, subtract
         P = Q.pop()
-        #P.print()
-        #print(P.cost)
-        #print('_______')
-        #P.cost = P.cost - float(P.head().h) # subtract heuristic from head (no longer relevant since we will add a new node to this path)
         
         '''
         Found goal node!
@@ -67,11 +63,6 @@ def search(start, goal):
                 # Add cost so min-queue can account for prospective node heuristic
                 new_path.cost += float(edge.dist)
                 
-                # + float(G.get_node(edge.v).h))
-                #print('considering node {}, h={}'.format(G.get_node(edge.v).label, G.get_node(edge.v).h))
-                #new_path.print()
-                #print()
-                
                 # Append valid path to list of possible paths
                 Q.append(new_path)
         
@@ -81,5 +72,5 @@ def search(start, goal):
     # Return failure
     return None
 
-search('105050228', '105012740')
-#search('1', '7')
+#search('105050228', '105012740')
+search('1', '7')

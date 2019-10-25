@@ -70,5 +70,5 @@ def search(start, goal):
     # Return failure
     return None
 
-search('105050228', '105012740')
-#search('1', '7')
+#search('105050228', '105012740')
+search('1', '7')
