@@ -1,0 +1,16 @@
+BFS
+Num nodes visited: 5
+Num nodes on path: 4
+Distance (km): 9.0
+
+UCS
+Num nodes visited: 6
+Num nodes on path: 5
+Distance (km): 8.0
+
+A*
+Num nodes visited: 4
+Num nodes on path: 5
+Distance (km): 8.0
+
+Done.

@@ -1,0 +1,16 @@
+BFS
+Num nodes visited: 3934
+Num nodes on path: 67
+Distance (km): 3.5126331351369204
+
+UCS
+Num nodes visited: 5305
+Num nodes on path: 74
+Distance (km): 3.45660140790222
+
+A*
+Num nodes visited: 1202
+Num nodes on path: 74
+Distance (km): 3.4606160518722398
+
+Done.

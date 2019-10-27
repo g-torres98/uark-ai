@@ -110,8 +110,8 @@ class graph():
         self.n = 0
         
         # Create nodes out of every node found in the heuristics
-        h_file = 'test_heuristic.txt'
-        #h_file = 'heuristic.txt'
+        #h_file = 'test_heuristic.txt'
+        h_file = 'heuristic.txt'
         with open(h_file) as f:
             for line in f:
                 node_line = line.split()
@@ -120,8 +120,8 @@ class graph():
                 self.n += 1
                 #self.nodes[edge_line[0]] = node(label=edge_line[0])
         
-        file_name = 'test_graph.txt' # much smaller test data
-        #file_name = 'edges.txt'
+        #file_name = 'test_graph.txt' # much smaller test data
+        file_name = 'edges.txt'
         with open(file_name) as f:
             for line in f:
                 edge_line = line.split()
