@@ -4,9 +4,9 @@
 # Guadalupe Torres
 # Manuel Serna-Aguilera
 #************************************************
-
 import numpy as np
 import matplotlib.pyplot as plt
+import random
 
 #------------------------------------------------
 # Draw the regression line for classification
@@ -110,8 +110,8 @@ m = X.shape[0]
 layers = [2, 2, 1]
 
 # Define how many times to iterate over data and learning rate
-iterations = 1500
-learning_rate = 0.25
+iterations = 1000
+learning_rate = 0.3
 
 # Train the model given the information given (above)
 model = train(X, Y, layers, iterations, learning_rate)
@@ -119,35 +119,37 @@ model = train(X, Y, layers, iterations, learning_rate)
 
 
 #================================================
-# With the optimized function, make predictions
+'''
+With the optimized function, make predictions, and output these predictions
+On the graph, labeled points are colored...
+    - Blue: predicted output was 1
+    - Red: predicted outptut was 0
+'''
 #================================================
-
-# Test 2X1 vector to calculate the XOR of its elements. 
-# Try (0, 0), (0, 1), (1, 0), (1, 1)
-point = np.array([[.25], [.65]])
-prediction = predict(point, model)
-print("Given ({}, {}).\nPrediction: {}".format(point[0][0], point[1][0], prediction))
-
-#------------------------------------------------
-# Label points and show plot
-#------------------------------------------------
-n_pts = 100
+# Define graph with domain and range [0,1]
 _, ax = plt.subplots(figsize=(4,4))
 plt.ylim(0, 1)
 plt.xlim(0, 1)
+n_pts = 500 # total points
+counter = 0
+test_pts = [] # array of points
 
-# Starting points to graph
-x = 0.0
-y = 0.0
+# Create normal random x and y values to test our model on
+for i in range(n_pts):
+    test_pts.append((random.uniform(0, 1), random.uniform(0, 1)))
 
-while not x > 1.0:
-    plt.scatter(x, y)
-    x += 0.1
-    y += 0.1
-
-#plt.scatter(*np.random.randint(0, high=100, size = (2, n_pts)))
-
-#ax.scatter(top_region[:, 0], top_region[:, 1], color = 'r') # label red
-#ax.scatter(bottom_region[:, 0], bottom_region[:, 1], color = 'b') # label blue
-#gradient_descent(line_parameters, all_pts, y, 0.06)
+# Make predictions and label points
+while counter < n_pts:
+    x = test_pts[counter][0]
+    y = test_pts[counter][1]
+    point = np.array([[x], [y]])
+    p = predict(point, model) # prediction value (int) p
+    #print('({}, {}): {}'.format(x, y, p))
+    if p == 1:
+        plt.plot(x, y, 'b.')
+    elif p == 0:
+        plt.plot(x, y, 'r.')
+    else:
+        print('something went wrong')
+    counter += 1
 plt.show()
